@@ -1,2 +1,2 @@
 # AndroidWorkspace
-the best pratice for Android Dev
+the best practice for Android Dev
