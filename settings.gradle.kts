@@ -12,11 +12,11 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
     }
-    versionCatalogs {
-        create("deps") {
-            from(files("./libs.versions.toml"))
-        }
-    }
+//    versionCatalogs {
+//        create("libs") {
+//            from(files("./gradle/libs.versions.toml"))
+//        }
+//    }
 }
 
 rootProject.name = "AndroidWorkspace"
