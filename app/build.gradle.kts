@@ -2,6 +2,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlinAndroid)
+    id("com.hellokai.androidworkspace.notification")
 }
 
 android {
@@ -44,4 +45,9 @@ dependencies {
     implementation(libs.nav.ui.ktx)
     implementation(libs.nav.ui.ktx)
 }
-true // Needed to make the Suppress annotation work for the plugins block
+
+test_notification {
+    token = "slackToken"
+    channelId = "slackChannelId"
+    message = "Slack Notification project built successfully!"
+}
