@@ -1,7 +1,7 @@
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlinAndroid)
+    id("com.android.application")
+    kotlin("android")
     id("com.hellokai.androidworkspace.notification")
 }
 
