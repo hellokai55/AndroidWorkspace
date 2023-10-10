@@ -1,5 +1,5 @@
 plugins {
-    `kotlin-dsl`
+    `kotlin-dsl`//引入了kotlin系列插件，java-gradle-plugin,precompiled-script-plugin等相关插件
     `java-gradle-plugin`
 }
 
