@@ -3,7 +3,13 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     `lib-convention-script-plugin`
+    `dummy-script-plugin`
+
+    id("lib-convention-binary-plugin")
 }
+
+// 独立脚本只能用apply，而不能用plugins方式
+apply(from = "../standalone-scripts/lib-convention-script-plugin2.gradle.kts")
 
 android {
     namespace = "com.hellokai.lib1"

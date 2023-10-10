@@ -20,4 +20,9 @@ dependencies {
 
 gradlePlugin {
 
+    plugins.register("lib-convention-binary-plugin") {
+        id = "lib-convention-binary-plugin"
+        implementationClass = "com.hellokai.androidworkspace.buildsrc.LibConventionBinaryPlugin"
+    }
+
 }
