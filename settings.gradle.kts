@@ -31,3 +31,4 @@ dependencyResolutionManagement {
 rootProject.name = "AndroidWorkspace"
 include(":app")
 includeBuild("plugins")
+include(":lib1")
