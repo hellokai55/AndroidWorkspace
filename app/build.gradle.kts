@@ -1,9 +1,14 @@
+import com.hellokai.androidworkspace.buildsrc.getAppFeatureSwitchesFromDotKt
+import com.hellokai.androidworkspace.buildsrc.getAppFeatureSwitchesFromDotKt2
+
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     id("com.android.application")
     kotlin("android")
     id("com.hellokai.androidworkspace.notification")
 }
+
+apply(from = "../standalone-scripts/app-build-features-export2.gradle.kts")
 
 android {
     namespace = "com.hellokai.androidworkspace"
@@ -50,4 +55,16 @@ test_notification {
     token = "slackToken"
     channelId = "slackChannelId"
     message = "Slack Notification project built successfully!"
+}
+
+afterEvaluate {
+    // Test Extension Function from BuildSrc
+    println("app->build.gradle.kts,afterEvaluate,Test Extension Function from .kt file:")
+    println(getAppFeatureSwitchesFromDotKt(android))
+    println("app->build.gradle.kts,afterEvaluate,Test Extension Function from .kt file2:")
+    println(getAppFeatureSwitchesFromDotKt2())
+
+    // 使用独立脚本的方法
+    val funcFromScript = extra["getAppFeatureSwitchesFromScriptPlugin"] as () -> Map<String, Boolean?>
+    println(funcFromScript())
 }
