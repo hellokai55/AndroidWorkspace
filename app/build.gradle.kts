@@ -6,6 +6,7 @@ plugins {
     id("com.android.application")
     kotlin("android")
     id("com.hellokai.androidworkspace.notification")
+    id("lib-basis-plugin")
 }
 
 apply(from = "../standalone-scripts/app-build-features-export2.gradle.kts")

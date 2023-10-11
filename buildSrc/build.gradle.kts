@@ -25,4 +25,9 @@ gradlePlugin {
         implementationClass = "com.hellokai.androidworkspace.buildsrc.LibConventionBinaryPlugin"
     }
 
+    plugins.register("lib-basis-plugin") {
+        id = "lib-basis-plugin"
+        implementationClass = "com.hellokai.androidworkspace.buildsrc.BasisExtPlugin"
+    }
+
 }
