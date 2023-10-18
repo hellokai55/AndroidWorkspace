@@ -32,6 +32,6 @@ gradlePlugin {
 
     plugins.register("task-essentials-plugin") {
         id = "task-essentials-plugin"
-        implementationClass = "me.xx2bab.extendagp.buildsrc.TaskEssentialsPlugin"
+        implementationClass = "com.hellokai.androidworkspace.buildsrc.TaskEssentialsPlugin"
     }
 }
