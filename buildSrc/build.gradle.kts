@@ -30,4 +30,8 @@ gradlePlugin {
         implementationClass = "com.hellokai.androidworkspace.buildsrc.BasisExtPlugin"
     }
 
+    plugins.register("task-essentials-plugin") {
+        id = "task-essentials-plugin"
+        implementationClass = "me.xx2bab.extendagp.buildsrc.TaskEssentialsPlugin"
+    }
 }

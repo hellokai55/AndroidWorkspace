@@ -7,6 +7,7 @@ plugins {
     kotlin("android")
     id("com.hellokai.androidworkspace.notification")
     id("lib-basis-plugin")
+    id("task-essentials-plugin")
 }
 
 apply(from = "../standalone-scripts/app-build-features-export2.gradle.kts")
