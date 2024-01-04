@@ -11,6 +11,7 @@ plugins {
     id("lib-basis-plugin")
     id("task-essentials-plugin")
     id("task-cache-testing")
+    id("variant-v1-advanced")
 }
 
 apply(from = "../standalone-scripts/app-build-features-export2.gradle.kts")
@@ -156,7 +157,7 @@ android.applicationVariants.configureEach {
             val out = File(file.parentFile, "custom-${this.versionName}")
             println("RenameApkFile,outpath:${out.absolutePath}")
             val renameApkTask = project.tasks.register<RenameApkFile>(
-                "rename${this.name.capitalized()}Apk",
+                "rename${this.name.capitalized()}BuildGradleApk",
             ) {
                 inputApk = file
                 outputApk = out

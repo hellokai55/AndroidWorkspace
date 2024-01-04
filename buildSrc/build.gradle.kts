@@ -39,4 +39,9 @@ gradlePlugin {
         id = "task-cache-testing"
         implementationClass = "com.hellokai.androidworkspace.buildsrc.TaskCacheTesting"
     }
+
+    plugins.register("variant-v1-advanced") {
+        id = "variant-v1-advanced"
+        implementationClass ="com.hellokai.androidworkspace.buildsrc.VariantV1AdvancedPlugin"
+    }
 }
