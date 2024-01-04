@@ -12,6 +12,7 @@ plugins {
     id("task-essentials-plugin")
     id("task-cache-testing")
     id("variant-v1-advanced")
+    id("variant-v2-advanced")
 }
 
 apply(from = "../standalone-scripts/app-build-features-export2.gradle.kts")

@@ -42,6 +42,10 @@ gradlePlugin {
 
     plugins.register("variant-v1-advanced") {
         id = "variant-v1-advanced"
-        implementationClass ="com.hellokai.androidworkspace.buildsrc.VariantV1AdvancedPlugin"
+        implementationClass = "com.hellokai.androidworkspace.buildsrc.VariantV1AdvancedPlugin"
+    }
+    plugins.register("variant-v2-advanced") {
+        id = "variant-v2-advanced"
+        implementationClass = "com.hellokai.androidworkspace.buildsrc.VariantV2AdvancedPlugin"
     }
 }
