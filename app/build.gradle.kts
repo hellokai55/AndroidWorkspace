@@ -1,4 +1,3 @@
-import com.android.build.gradle.AppExtension
 import com.android.build.gradle.internal.core.MergedFlavor
 import com.hellokai.androidworkspace.buildsrc.getAppFeatureSwitchesFromDotKt
 import com.hellokai.androidworkspace.buildsrc.getAppFeatureSwitchesFromDotKt2
@@ -11,6 +10,7 @@ plugins {
     id("com.hellokai.androidworkspace.notification")
     id("lib-basis-plugin")
     id("task-essentials-plugin")
+    id("task-cache-testing")
 }
 
 apply(from = "../standalone-scripts/app-build-features-export2.gradle.kts")
@@ -38,20 +38,20 @@ android {
             isMinifyEnabled = true
         }
     }
-    flavorDimensions += "server"
-    productFlavors {
-        create("staging") {
-            dimension = "server"
-            applicationIdSuffix = ".staging"
-            versionNameSuffix = "-staging"
-        }
-        create("production") {
-            dimension = "server"
-            applicationIdSuffix = ".production"
-            versionNameSuffix = "-production"
-            versionCode = 2
-        }
-    }
+//    flavorDimensions += "server"
+//    productFlavors {
+//        create("staging") {
+//            dimension = "server"
+//            applicationIdSuffix = ".staging"
+//            versionNameSuffix = "-staging"
+//        }
+//        create("production") {
+//            dimension = "server"
+//            applicationIdSuffix = ".production"
+//            versionNameSuffix = "-production"
+//            versionCode = 2
+//        }
+//    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -109,13 +109,14 @@ if (gradle.startParameter.taskNames.toString().contains("release", ignoreCase = 
     }
 }
 
+// 应该使用下列方式
 android.applicationVariants.configureEach {
-    println("Task applicationVariants: config correct variant:$this")
+    println("Task applicationVariants: config correct variant:${this.name}")
 }
 
 // 变体感知型任务
 androidComponents.onVariants { v ->
-    println("Task runOnDebugVariantOnly2: config correct variant:$v")
+    println("Task runOnDebugVariantOnly2: config correct variant:${v.name.capitalized()}")
     if (gradle.startParameter.taskNames.toString().contains("debug", ignoreCase = true)) {
         tasks.create("runOnDebugVariantOnly2${v.name.capitalized()}") {
             doFirst {
@@ -124,8 +125,6 @@ androidComponents.onVariants { v ->
         }
     }
 }
-
-val a = project.extensions.getByType(AppExtension::class.java)
 
 // 获取已经配置内容
 android.applicationVariants.configureEach {
@@ -145,5 +144,38 @@ android.applicationVariants.configureEach {
     }
     this.assembleProvider.configure {
         dependsOn(beforeAssemble)
+    }
+}
+
+// 修改apk包地址
+android.applicationVariants.configureEach {
+    val appVariant = this
+    this.outputs.forEach { output ->
+        val file = output.outputFile
+        if (file.extension == "apk") {
+            val out = File(file.parentFile, "custom-${this.versionName}")
+            println("RenameApkFile,outpath:${out.absolutePath}")
+            val renameApkTask = project.tasks.register<RenameApkFile>(
+                "rename${this.name.capitalized()}Apk",
+            ) {
+                inputApk = file
+                outputApk = out
+                dependsOn(appVariant.assembleProvider)
+            }
+        }
+    }
+}
+
+abstract class RenameApkFile : DefaultTask() {
+    @get:InputFile
+    lateinit var inputApk: File
+
+    @get:OutputFile
+    lateinit var outputApk: File
+
+    @TaskAction
+    fun taskAction() {
+        inputApk.copyTo(outputApk)
+        println("RenameApkFile,taskaction")
     }
 }
