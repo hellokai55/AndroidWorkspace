@@ -24,7 +24,7 @@ gradle.addBuildListener(object : BuildListener {
     }
 
     override fun projectsLoaded(gradle: Gradle) {
-        println("projectsLoaded")
+        println("projectsLoaded:${gradle.rootProject}")
     }
 
     override fun projectsEvaluated(gradle: Gradle) {

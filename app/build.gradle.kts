@@ -1,5 +1,8 @@
+import com.android.build.gradle.AppExtension
+import com.android.build.gradle.internal.core.MergedFlavor
 import com.hellokai.androidworkspace.buildsrc.getAppFeatureSwitchesFromDotKt
 import com.hellokai.androidworkspace.buildsrc.getAppFeatureSwitchesFromDotKt2
+import org.gradle.configurationcache.extensions.capitalized
 
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
@@ -27,8 +30,26 @@ android {
     }
 
     buildTypes {
-        getByName("release") {
+        getByName("debug") {
             isMinifyEnabled = false
+            applicationIdSuffix = ".debug"
+        }
+        getByName("release") {
+            isMinifyEnabled = true
+        }
+    }
+    flavorDimensions += "server"
+    productFlavors {
+        create("staging") {
+            dimension = "server"
+            applicationIdSuffix = ".staging"
+            versionNameSuffix = "-staging"
+        }
+        create("production") {
+            dimension = "server"
+            applicationIdSuffix = ".production"
+            versionNameSuffix = "-production"
+            versionCode = 2
         }
     }
     compileOptions {
@@ -51,6 +72,12 @@ dependencies {
     implementation(libs.nav.fragment.ktx)
     implementation(libs.nav.ui.ktx)
     implementation(libs.nav.ui.ktx)
+    implementation("com.hellokai.variant:variantlib1:1.0.0") {
+        capabilities {
+            requireCapability("com.hellokai.variant:variantlib1-okhttp")
+        }
+    }
+    implementation(project(mapOf("path" to ":variantlib1-api")))
 }
 
 test_notification {
@@ -67,6 +94,56 @@ afterEvaluate {
     println(getAppFeatureSwitchesFromDotKt2())
 
     // 使用独立脚本的方法
-    val funcFromScript = extra["getAppFeatureSwitchesFromScriptPlugin"] as () -> Map<String, Boolean?>
+    val funcFromScript =
+        extra["getAppFeatureSwitchesFromScriptPlugin"] as () -> Map<String, Boolean?>
     println(funcFromScript())
+}
+
+// 错误方式：无法判断入参是什么类型
+println("Task runOnReleaseVariantOnly: config")
+if (gradle.startParameter.taskNames.toString().contains("release", ignoreCase = true)) {
+    tasks.create("runOnReleaseVariantOnly") {
+        doFirst {
+            println("Task runOnReleaseVariantOnly: running...")
+        }
+    }
+}
+
+android.applicationVariants.configureEach {
+    println("Task applicationVariants: config correct variant:$this")
+}
+
+// 变体感知型任务
+androidComponents.onVariants { v ->
+    println("Task runOnDebugVariantOnly2: config correct variant:$v")
+    if (gradle.startParameter.taskNames.toString().contains("debug", ignoreCase = true)) {
+        tasks.create("runOnDebugVariantOnly2${v.name.capitalized()}") {
+            doFirst {
+                println("Task runOnDebugVariantOnly2: running...")
+            }
+        }
+    }
+}
+
+val a = project.extensions.getByType(AppExtension::class.java)
+
+// 获取已经配置内容
+android.applicationVariants.configureEach {
+    val variantCapitalizedName = this.name.capitalized()
+    logger.lifecycle("variant name:${this.name}")
+    logger.lifecycle("variant.applicationId: ${this.applicationId}")
+    logger.lifecycle("variant.versionCode: ${this.versionCode}")
+    logger.lifecycle("variant.versionName: ${this.versionName}")
+    logger.lifecycle("variant.minSdkVersion:${this.mergedFlavor.minSdkVersion}")
+    logger.lifecycle("variant.mergedFlavor.manifestPlaceholders:${this.mergedFlavor.manifestPlaceholders}")
+    (this.mergedFlavor as MergedFlavor).applicationId = this.applicationId + ".custom"
+
+    val beforeAssemble = project.tasks.register("beforeAssemble$variantCapitalizedName") {
+        doFirst {
+            logger.lifecycle("beforeAssemble$variantCapitalizedName is running...")
+        }
+    }
+    this.assembleProvider.configure {
+        dependsOn(beforeAssemble)
+    }
 }

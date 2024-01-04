@@ -14,6 +14,7 @@ pluginManagement {
         }
     }
     repositories {
+        mavenLocal()
         google()
         mavenCentral()
         gradlePluginPortal()
@@ -23,6 +24,7 @@ pluginManagement {
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
+        mavenLocal()
         google()
         mavenCentral()
     }
@@ -32,3 +34,6 @@ rootProject.name = "AndroidWorkspace"
 include(":app")
 includeBuild("plugins")
 include(":lib1")
+include(":variant-feature")
+include(":variantlib1")
+include(":variantlib1-api")

@@ -1,5 +1,5 @@
 plugins {
-    `kotlin-dsl`//引入了kotlin系列插件，java-gradle-plugin,precompiled-script-plugin等相关插件
+    `kotlin-dsl` // 引入了kotlin系列插件，java-gradle-plugin,precompiled-script-plugin等相关插件
     `java-gradle-plugin`
 }
 
@@ -33,5 +33,10 @@ gradlePlugin {
     plugins.register("task-essentials-plugin") {
         id = "task-essentials-plugin"
         implementationClass = "com.hellokai.androidworkspace.buildsrc.TaskEssentialsPlugin"
+    }
+
+    plugins.register("task-cache-testing") {
+        id = "task-cache-testing"
+        implementationClass = "com.hellokai.androidworkspace.buildsrc.TaskCacheTesting"
     }
 }

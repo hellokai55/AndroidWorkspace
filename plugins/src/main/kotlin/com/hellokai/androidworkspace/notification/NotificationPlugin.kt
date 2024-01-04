@@ -23,7 +23,7 @@ abstract class NotificationPlugin : Plugin<Project> {
         project.afterEvaluate {
             check(androidAppPluginApplied.get()) {
                 "Notification plugin should only be applied to an Android Application project " +
-                        "but ${project.displayName} doesn't have the 'com.android.application' plugin applied."
+                    "but ${project.displayName} doesn't have the 'com.android.application' plugin applied."
             }
         }
         project.plugins.withType<AppPlugin> {
@@ -36,13 +36,23 @@ abstract class NotificationPlugin : Plugin<Project> {
                 ) {
                     throw IllegalArgumentException(
                         "Please specify target Slack Channel and Token " +
-                                "in \"slackNotification{}\" block.",
+                            "in \"slackNotification{}\" block.",
                     )
                 }
                 if (notificationExtension.enabled) {
                     val appVariant = this
                     val taskProvider = project.tasks.register<NotificationTask>(
-                        "assembleAndNotify${appVariant.name.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }}",
+                        "assembleAndNotify${
+                            appVariant.name.replaceFirstChar {
+                                if (it.isLowerCase()) {
+                                    it.titlecase(
+                                        Locale.getDefault(),
+                                    )
+                                } else {
+                                    it.toString()
+                                }
+                            }
+                        }",
                     ) {
                         token = notificationExtension.token
                         channelId = notificationExtension.channelId
