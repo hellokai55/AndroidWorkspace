@@ -13,6 +13,7 @@ plugins {
     id("task-cache-testing")
     id("variant-v1-advanced")
     id("variant-v2-advanced")
+    id("test-polyfill-plugin")
 }
 
 apply(from = "../standalone-scripts/app-build-features-export2.gradle.kts")

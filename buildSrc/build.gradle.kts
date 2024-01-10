@@ -16,6 +16,7 @@ dependencies {
     implementation(gradleApi())
     implementation(kotlin("stdlib-jdk8"))
     implementation(libs.android.gradle.plugin)
+    implementation(libs.polyfill)
 }
 
 gradlePlugin {
@@ -47,5 +48,10 @@ gradlePlugin {
     plugins.register("variant-v2-advanced") {
         id = "variant-v2-advanced"
         implementationClass = "com.hellokai.androidworkspace.buildsrc.VariantV2AdvancedPlugin"
+    }
+
+    plugins.register("test-polyfill-plugin") {
+        id = "test-polyfill-plugin"
+        implementationClass = "com.hellokai.androidworkspace.buildsrc.TestPolyfillPlugin"
     }
 }
