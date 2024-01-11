@@ -4,6 +4,12 @@ includeBuild("../slackPlugins/slack") {
             .using(project(":"))
     }
 }
+includeBuild("../slackPlugins/slack-lazy") {
+    dependencySubstitution {
+        substitute(module("com.hellokai.androidworkspace:slack-lazy"))
+            .using(project(":"))
+    }
+}
 
 pluginManagement {
     plugins {

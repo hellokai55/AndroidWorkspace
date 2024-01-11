@@ -12,7 +12,7 @@ dependencies {
     implementation(libs.kotlin.std)
     implementation(libs.android.gradle.plugin)
     implementation("com.hellokai.androidworkspace:slack:+")
-//    implementation("me.2bab.buildinaction:slack-lazy:+")
+    implementation("com.hellokai.androidworkspace:slack-lazy:+")
 //    implementation("me.2bab.buildinaction:slack-nested-blocks:+")
 //    implementation("me.2bab.buildinaction:slack-task-orchestra:+")
 //    implementation("me.2bab.buildinaction:slack-cache-rules-compliance:+")
