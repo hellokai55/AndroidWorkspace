@@ -14,6 +14,7 @@ plugins {
     id("variant-v1-advanced")
     id("variant-v2-advanced")
     id("test-polyfill-plugin")
+    id("22slack-config")
 }
 
 apply(from = "../standalone-scripts/app-build-features-export2.gradle.kts")
