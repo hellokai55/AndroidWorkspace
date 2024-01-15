@@ -1,10 +1,16 @@
 package com.hellokai.androidworkspace.slack
 
+import com.android.build.api.artifact.SingleArtifact
+import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.AppPlugin
+import com.android.build.gradle.api.BaseVariant
 import com.android.build.gradle.internal.tasks.factory.dependsOn
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.file.Directory
+import org.gradle.api.internal.component.ArtifactType
+import org.gradle.api.provider.Provider
 import org.gradle.configurationcache.extensions.capitalized
 import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.register
@@ -53,6 +59,18 @@ class SlackNotificationPlugin : Plugin<Project> {
                     }
                     taskProvider.dependsOn(this.assembleProvider)
                 }
+            }
+            val androidExtension2 =
+                project.extensions.getByType(ApplicationAndroidComponentsExtension::class.java)
+            androidExtension2.onVariants { appVariant ->
+                val allSources: Provider<out Collection<Directory>> = appVariant.sources.java!!.all
+                val sourceToVerificationCodesTask =
+                    project.tasks.register<SourceToVerificationCodesTask>(
+                        "testSourceToVerify${appVariant.name.capitalized()}",
+                    ) {
+                        sources.from(project.files(allSources))
+                        outputDir.set(project.layout.buildDirectory.dir("src_verification"))
+                    }
             }
         }
     }
