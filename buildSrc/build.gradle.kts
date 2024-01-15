@@ -54,4 +54,9 @@ gradlePlugin {
         id = "test-polyfill-plugin"
         implementationClass = "com.hellokai.androidworkspace.buildsrc.TestPolyfillPlugin"
     }
+
+    plugins.register("resource-api-interaction-app") {
+        id = "resource-api-interaction-app"
+        implementationClass = "com.hellokai.androidworkspace.buildsrc.ResourceAPIInteractionAppPlugin"
+    }
 }
